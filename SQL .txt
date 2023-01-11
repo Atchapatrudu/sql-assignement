@@ -1,0 +1,159 @@
+*************************************************ASSIGNMENT1*******************************************************
+create database customer_order;
+
+use customer_order;
+
+create table customer(id int,fname varchar(50) not null,lastname varchar(50),city varchar(50),country varchar(40),phone varchar(20),primart key(id));
+
+insert into customer values(184, "tamarala','atchapathrudu','rowathalupudi','india',9542436463),(186, 'chintakayala','manikankata','mulahapudi','india',9652710449),
+(189, 'naga','sai','annavaram','india',9052436463),(179, 'gowatahm','sai','kathipudi','india',9603229641),(195, 'kasuraju','tamarala','mumbai','india',9503229641);
+
+ON customer(fname,lastname);
+
+==> diplsy all customer details
+select* from customer
+
+===>6.write a query to display Country whose name starts with A or I
+select fname,country from customer where (country like 'a%') or(country like 'i%');
+
+select * from customer where fname like '___a%';
+____________________________________________________________>>>>>thanku you <<<<<<<___________________________________________________________________________
+_______________>>>>>>>>>>section 2_____________________________>>>>>>>
+create table orders(oid int, orderdate date not null, ordername varchar(30),totalamount decimal(12,2), id int foreign key references customer (id),primary key(oid));
+
+on orders (orderdate);
+insert into orders values(1001,'2008-11-11','achii',2022.00.101),
+(1002,'2007-01-12','abcd',2008.00.103),
+(1003,'2022-12-13','gfcg',2022.00.101),
+(1004,'2022-12-22','xyz',2022.00.101);
+
+create table product(pid int, pname varchar(20),unitprice decimal(12,2), package varchar(30),isdiscountinued bit, primary key(pid));
+
+
+on product (pid);
+on product (pname);
+insert into product values(2110,'exotic liquids',15.00,'handwash',1);
+insert into product values(2111,'finish',18.00,'seqfood',1);
+insert into product values (2110,'leamontea, 10.00,'chai',1);
+
+
+>>>>>>
+create table orderitem(orid int, oid int foregin key reference order(oid),id int foreign key refernces customer (id),unitprice decimal(12,2),quantity int);
+ 
+
+insert into orderitem values (2000,1011,102,15,2,10);
+insert into orderitem values(20000,1012,103,15,2,9);
+insert into orderitem values(20000,1013,101,18,2,8);
+
+--------------------------------------------------------------ASSIGNMENT-2--------------------------------------------------------------------------------
+1)Display the details from Customer table who is from country Germany ?
+select * from customer where coutry='india';
+
+2)Display the full name of the employee?
+select  concat(fname,' ',lastname)as fullname from customer;
+
+3)Display the customer details who has Fax number
+select * from customer where fax_no <>0;
+
+4)display the customer details whose name holds second letter as U ?
+select * from customer where fname like '_u';
+
+5)select order Details where unit price is greater than 10 and less than 20 ?
+select * from order inner join orderitem on order.oid=orderitem.oid
+where orderitem.unitprice>10 and orderitem.unitprice<20;
+
+6)Display order details which contains shipping date and arrange the order by date ?
+select * from orders order by orderdate;
+
+7)Print the orders shipped by ship name 'La corned'abondance' between 2 dates(Choose dates of your choice)
+select *from orders where orderdate between '2008-11-11' and '2022-12-13';
+
+8)Print the products supplied by 'Exotic Liquids'?
+select pname from product where pname='exotic liquids';
+
+9)print the average quantity ordered for every product?
+select avg(quqntity)as avg,pname,from orderitem left join product on orderitem.pid=product.pid group by pname;
+
+10)Print all the Shipping company name and the ship names if they are operational?
+****************************************************************************ASSIGNEMT-3*********************************************************************
+1.write a query to display the orders placed by customer with phone number 030-0074321 ?
+select * from order left join customer on order.id=customer.id where phone=95424363;
+
+2.  fetching all the products which are available under Category ‘Seafood’.?
+select * from  product where package ='seafood';
+
+3.Display the orders placed by customers not in London?
+select oid,orderdate,ordername,totalamount from order inner join customer on order.id=customer.id where country <>'london';
+
+4. selects all the order which are placed for the product Chai?
+selct * from product where package ='chai';
+***************************************************************************ASSIGNEMT -4___******************************************************* 
+
+1)selct sum(price)
+from order inner join orderitem inner join product on order.oid=orderitem.oid and orderitem.pid = product.pid 
+where pname='exotic luquids';     
+2.	Display the employee details whose joined at first
+      select (top 1) joined from employees order by joindate;
+
+3.	Display the employee details whose joined at recently?
+      select top(3) joined,ename from employees order by joindate;
+
+4.	Write a query to get most expense and least expensive Product list (name and unit price).?
+       select top(1) unitprice,pname from product order by unitprice;
+
+     
+5.	Display the list of products that are out of stock?
+      select pname from product where stock =null;
+6.	Display the list of products whose unitinstock is less than unitonorder?
+      select  * from order where unitstock < unitonorder; 
+    
+7.	Display complete list of customers, the OrderID and date of any orders they have made?
+     select categories,supplier from product group by categories;
+      
+8.	Write  query that determines the customer who has placed the maximum number of orders?
+     select id,fname,max(ordernumber)from orders inner join customer on order.id=customer.id;
+
+9.	Display the customerid whose name has substring ‘RA’
+      select id from customer where substring(fname,len(fname),2='RA';
+
+10.	Display the first word of all the company name?
+      select name from emp where substring (name,len(name),2);
+
+
+cerate database emp_dep;
+use emp_dep;
+cerate table dep(did int, dname varchar(10),loc varchar(10),primary key(did));
+insert  into dept values((15,'ACCOUNTINGS', 'HYDRABAD')(30,'research','p'),(45,'SALES','NAGPUR','sangli'),(60,'OPERATOINS','MUMBAI'));
+
+
+cerate table emp(eid int primary key, ename varchar(10),joined date, salary decimal(12,2),mngid int, mname varchar(10),did int foreign key (did) references dept(did));
+ insert into emp values(2011,'pqrs','2004-03-03',20000.00,9211,'achi',10);
+ insert into emp values(2012,'abcd','2004-05-03',20000.00,9213,'gowatam',20);
+ insert into emp values(2013,'rsqf','2004-03-04',20000.00,9211,'raja',30);
+ insert into emp values(2014,'pjhh','2004-12-03',20000.00,9214,'manika',40);
+ insert into emp values(2015,'pess','2004-03-31',20000.00,9219,'jaya',50);
+
+      
+***********************************************************************COMPLITE ****************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
